@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url,include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,9 +24,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     
     url(r'^blog/', views.blog,name="url2"),
+    url(r'^blog_search/', views.blog_search,name="blog_search"),
     url(r'^test/', homeblog.as_view(),name="url3"),
     url(r'^test_detail/(?P<slug>[-\w]+)/', homeblog_details.as_view(),name="blog_detail"),
-
+    url('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
+    url('ckeditor/', include('ckeditor_uploader.urls')),
 ] 
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

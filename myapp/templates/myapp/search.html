@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include "common/header.html" %}
+ <!-- bradcam_area  -->
+        <div class="bradcam_area bradcam_bg_1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="bradcam_text text-center">
+                            <h3>Blog</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /bradcam_area  -->
+
+{% if request.GET.q %}
+    <!--================Blog Area =================-->
+    <section class="blog_area section-padding">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                        {% for post in blogs %}
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="{{post.image.url}}" alt="test-image">
+                                <a href="#" class="blog_item_date">
+                                    <h3>{{post.get_pubdate}}</h3>
+                                    <p>{{post.get_pub_monthyear}}</p>
+                                </a>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="single-blog.html">
+                                    <h2><a href="{% url 'blog_detail' post.slug %}">{{post.title}}</a></h2>
+                                </a>
+                                <p>{{post.description | truncatechars:280 |safe}}</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="#"><i class="fa fa-user"></i> {{post.catagory}}</a></li>
+                                    <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                                </ul>
+                            </div>
+                        </article>
+                        {% endfor %}
+
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">1</a>
+                                </li>
+                                <li class="page-item active">
+                                    <a href="#" class="page-link">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                
+                
+                      {% include "myapp/side.html"  %} 
+                   
+
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+    {% else %}
+    <h1>page not found</h1>
+    {% endif %}
+ {% include "common/footer.html" %}
+ {% endblock %}
